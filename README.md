@@ -15,10 +15,10 @@ A Discord inspired theme for [LimeChat](https://github.com/psychs/limechat).
 
 ## Basic Install
 
-1. [Click here](https://github.com/salytmouse/limechat-theme-discordant/zipball/master/) to download this project as a zip.
+1. Download this project as a zip (from the "Code" menu above or [click here](https://github.com/saltymouse/limechat-discordant/archive/refs/heads/master.zip)).
 2. Open LimeChat's theme folder.
    - LimeChat Preferences → Theme → Open in Finder
-3. Unzip the project zip archive downloaded previously, then drag-and-drop the everything from inside this project's `dist` folder to inside LimeChat's `Themes` revealed earlier.
+3. Unzip the project zip archive, then drag-and-drop everything inside the `dist` folder to inside LimeChat's `Themes` revealed earlier.
 4. Close, then re-open LimeChat's preferences and select the "discordant" theme from the "Current theme" drop-down menu.
 
 You should end up with a `Themes` folder similar to this:
@@ -37,10 +37,10 @@ You should end up with a `Themes` folder similar to this:
 
 ## Developer Install
 
-1. Open your LimeChat 'Themes' in your Terminal
+1. Open your LimeChat `Themes` in your Terminal
 2. `npm install` to install dependencies
 3. `npm run dev` for local dev (browser preview)
-4. `npm run deploy` build and copy files to the `Themes` folder
+4. `npm run deploy` build and copy files to the `Themes` folder to test in LimeChat
 
 ### Developer Notes
 
