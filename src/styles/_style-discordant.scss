@@ -1,0 +1,316 @@
+@import "./emojis";
+@import "./fonts";
+
+$svgDataHash: "\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-hash'%3E%3Cline x1='4' y1='9' x2='20' y2='9'%3E%3C/line%3E%3Cline x1='4' y1='15' x2='20' y2='15'%3E%3C/line%3E%3Cline x1='10' y1='3' x2='8' y2='21'%3E%3C/line%3E%3Cline x1='16' y1='3' x2='14' y2='21'%3E%3C/line%3E%3C/svg%3E\"";
+
+$svgDataArrow: "\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%233BA55C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-arrow-right'%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3Cpolyline points='12 5 19 12 12 19'%3E%3C/polyline%3E%3C/svg%3E\"";
+
+$avatarSize: 44px;
+
+:root {
+  --color-black: #000;
+  --color-white: #fff;
+  --color-grey-200: #72767d;
+  --color-grey-400: #37393e;
+  --color-grey-500: #33353a;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+html {
+  font-family: "Nunito Sans", "Nunito", sans-serif;
+  font-size: 16px;
+  background-color: var(--color-grey-400);
+  color: var(--color-white);
+}
+
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+.inlineimage {
+  margin: 10px 20px 15px 0;
+  max-width: 200px;
+  max-height: 150px;
+}
+
+/* Message lines */
+.line {
+  width: 100%;
+
+  &.event {
+    display: grid;
+    grid-template-areas: "icon message time";
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: 1fr;
+    padding: 1rem 1rem;
+    position: relative;
+    background-color: var(--color-grey-400);
+    text-align: center;
+
+    &::before {
+      grid-area: icon;
+      content: "";
+      background-image: url(#{$svgDataArrow});
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      width: 16px;
+      height: 16px;
+      margin-right: 0.5rem;
+    }
+
+    .time {
+      grid-area: time;
+      display: flex;
+      align-items: center;
+      font-size: 0.74rem;
+      color: var(--color-grey-200);
+      cursor: default;
+    }
+
+    .message {
+      grid-area: message;
+      font-size: 0.74rem;
+      color: var(--color-grey-200);
+      cursor: default;
+      margin-right: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      text-align: left;
+
+      a,
+      a.url {
+        text-decoration: none;
+        color: var(--color-grey-200);
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  &[_type="privmsg"],
+  &[_type="action"],
+  &[_type="notice"] {
+    background-color: var(--color-grey-400);
+    position: relative;
+    padding: 1rem;
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: auto auto 1fr;
+    grid-template-areas:
+      "avatar sender time"
+      "avatar message message";
+    gap: 0.25rem;
+
+    &:hover {
+      background-color: var(--color-grey-500);
+    }
+
+    &::before {
+      content: "";
+      background: #555;
+      height: $avatarSize;
+      width: $avatarSize;
+      border-radius: 9999px;
+      margin-right: 0.5rem;
+      grid-area: avatar;
+    }
+
+    .time {
+      display: flex;
+      align-items: center;
+      grid-area: time;
+      font-size: 0.74rem;
+      color: var(--color-grey-200);
+      cursor: default;
+    }
+
+    .sender {
+      grid-area: sender;
+      color: #fff;
+      font-weight: 600;
+      cursor: default;
+      font-size: 1rem;
+      letter-spacing: 0.032ex;
+    }
+
+    .message {
+      grid-area: message;
+      font-size: 0.94rem;
+
+      a {
+        color: #00aff4;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Console frame
+ */
+.console {
+  .line {
+    &.event {
+      display: grid;
+      grid-template-areas: "hash place message time";
+      grid-template-rows: 1fr;
+      grid-template-columns: auto auto auto 1fr;
+      text-align: left;
+
+      &::before {
+        content: "";
+        grid-area: hash;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-hash'%3E%3Cline x1='4' y1='9' x2='20' y2='9'%3E%3C/line%3E%3Cline x1='4' y1='15' x2='20' y2='15'%3E%3C/line%3E%3Cline x1='10' y1='3' x2='8' y2='21'%3E%3C/line%3E%3Cline x1='16' y1='3' x2='14' y2='21'%3E%3C/line%3E%3C/svg%3E");
+        height: 100%;
+        width: 16px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        margin-right: 0.5rem;
+      }
+
+      .time {
+        grid-area: time;
+        margin-left: 0.5rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .place {
+        grid-area: place;
+        margin-right: 0.5rem;
+        color: white;
+        display: flex;
+        align-items: center;
+        font-size: 0.8rem;
+
+        &::first-letter {
+          color: transparent;
+        }
+      }
+
+      .message {
+        grid-area: message;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+
+        .address {
+          display: none;
+        }
+      }
+    }
+
+    &[_type="privmsg"],
+    &[_type="notice"] {
+      display: grid;
+      grid-template-rows: auto auto auto;
+      grid-template-columns: auto auto 1fr;
+      grid-template-areas:
+        "place place place"
+        "avatar sender time"
+        "avatar message message";
+
+      .place {
+        grid-column: span 3;
+        grid-area: place;
+        color: white;
+        margin: 0 auto;
+        position: relative;
+        padding-left: 1rem;
+
+        &::first-letter {
+          color: transparent;
+        }
+
+        &::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0;
+          background-image: url(#{$svgDataHash});
+          background-size: contain;
+          background-position: center;
+          height: 1rem;
+          width: 1rem;
+        }
+
+        &::after {
+          content: ">";
+          color: var(--color-grey-400);
+          background-color: var(--color-grey-400);
+          position: absolute;
+          top: 0;
+          right: -1px;
+          padding-right: 1px;
+        }
+      }
+    }
+  }
+
+  &[_type="notice"] {
+    grid-template-rows: auto auto auto;
+    grid-template-columns: auto auto 1fr;
+    grid-template-areas:
+      "place place place"
+      "avatar sender time"
+      "avatar message message";
+  }
+}
+
+@mixin randomColor($rule) {
+  #{$rule}: unquote("hsl(#{random(360)}, #{random(100)}%, 75%)");
+}
+
+@debug "$comboChars length →" length($comboChars);
+@debug "$comboChars length →" length($emojis);
+
+@if length($emojis) >= length($comboChars) {
+  @for $i from 1 through length($comboChars) {
+    $nickStartingChars: nth($comboChars, $i);
+    $emojiSvg: nth($emojis, random(length($emojis)));
+
+    .line[nick^="#{$nickStartingChars}"] {
+      .sender {
+        @include randomColor("color");
+      }
+
+      &::before {
+        background-image: url(./discordant-assets/icons/#{$emojiSvg});
+        background-size: 75%;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+}
+
+/* Nicks */
+
+.sender[_type="normal"] {
+}
+
+.sender[_type="myself"] {
+}
