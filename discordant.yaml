@@ -6,13 +6,13 @@ log-view:
 
 input-text:
   font-family: "Nunito"
-  font-size: 13.0
+  font-size: 16.0
   background-color: "#40444B"
   color: "#ffffff"
 
 member-list:
   font-family: "Nunito"
-  font-size: 13.0
+  font-size: 16.0
   color: "#8E9296"
   background-color: "#2F3136"
   operator:
@@ -27,7 +27,7 @@ member-list:
 
 server-tree:
   font-family: "Nunito"
-  font-size: 14.0
+  font-size: 16.0
   background-color: "#202225"
   highlight:
     background-color: "#404675"
