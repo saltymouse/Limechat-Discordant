@@ -53,5 +53,5 @@ You should end up with a `Themes` folder similar to this:
   - [ ] Colour theme variables
 - [ ] Update `yaml` colours to be more Discordy
 - [ ] Setup `<iframe>` in dev-HTML to emulate LimeChat layout
-- [ ] Add symbols to nickname comboChars (e.g. `_`)
 - [ ] Add JS functionality
+- [x] Tune the list of comboChars based on combination frequency

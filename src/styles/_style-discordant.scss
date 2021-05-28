@@ -285,7 +285,7 @@ body {
 }
 
 @debug "$comboChars length →" length($comboChars);
-@debug "$comboChars length →" length($emojis);
+@debug "$emojis length →" length($emojis);
 
 @if length($emojis) >= length($comboChars) {
   @for $i from 1 through length($comboChars) {
