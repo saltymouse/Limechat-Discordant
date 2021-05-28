@@ -4,6 +4,7 @@ dist-ssr
 *.local
 mix-manifest.json
 .vscode
+*.map
 
 src/icons/*.svg
 dist/discordant-assets/fonts/nunito/**/*.json

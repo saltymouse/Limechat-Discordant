@@ -5,6 +5,7 @@ const fse = require("fs-extra");
 const klaw = require("klaw");
 const through2 = require("through2");
 const openmojiList = require("openmoji/data/openmoji.json");
+const { getWordsList } = require("most-common-words-by-language");
 
 /**
  * 🎚️ Base config
@@ -29,14 +30,15 @@ const source = {
  * 💫 Before Mix
  */
 
+let listOfEmojiFiles = [];
 mix.before(() => {
-  let listOfEmojiFiles = [];
   const animals = openmojiList.filter(
     (emoji) => emoji.group === "animals-nature"
   );
   const food = openmojiList.filter((emoji) => emoji.group === "food-drink");
+  const objects = openmojiList.filter((emoji) => emoji.group === "objects");
 
-  selectedEmojiGroups = [...animals, ...food];
+  selectedEmojiGroups = [...animals, ...food, ...objects];
   const selectedEmojiHexes = selectedEmojiGroups.map((emoji) => emoji.hexcode);
 
   const excludeDirFilter = through2.obj(function (item, enc, next) {
@@ -92,8 +94,9 @@ mix.js(`${source.scripts}/discordant.js`, config.publicFolder);
 /**
  * 🗺 Source Maps
  */
-mix.sourceMaps();
-
+if (!mix.inProduction()) {
+  mix.sourceMaps();
+}
 /**
  * 🦜 Styles
  */
@@ -110,28 +113,28 @@ mix
       const ABC = String.fromCharCode(...Array(91).keys())
         .slice(65)
         .split("");
+      const words = getWordsList("english", 2000);
+      const firstTwoChars = words
+        .filter((word) => word.length >= 2)
+        .map((word) => word.slice(0, 2));
+      const dedupedTwoChars = new Set(firstTwoChars);
+      const dedupedTwoCharsSafe = Array.from(dedupedTwoChars).map(
+        (chars) => `"${chars}"`
+      );
+      const dedupedTwoCharsUpperSafe = Array.from(dedupedTwoChars).map(
+        (chars) => `"${chars.slice(0, 1).toUpperCase() + chars.slice(1, 2)}"`
+      );
 
-      const comboChars = [];
+      console.table([...dedupedTwoCharsSafe, ...dedupedTwoCharsUpperSafe]);
 
-      for (let letter = 0; letter < abc.length; letter += 1) {
-        comboChars.push(abc[letter]);
-        comboChars.push(ABC[letter]);
-        comboChars.push(abc[letter] + abc[letter]);
-        comboChars.push(ABC[letter] + abc[letter]);
-        comboChars.push(ABC[letter] + ABC[letter]);
-
-        // Offsets
-        if (ABC[letter + 1]) {
-          comboChars.push(abc[letter] + ABC[letter + 1]);
-          comboChars.push(ABC[letter] + abc[letter + 1]);
-          comboChars.push(ABC[letter] + ABC[letter + 1]);
-        }
-
-        if (abc[letter + 2]) {
-          comboChars.push(abc[letter] + abc[letter + 2]);
-          comboChars.push(ABC[letter] + ABC[letter + 2]);
-        }
-      }
+      const comboChars = [
+        ...sym,
+        ...num,
+        ...abc,
+        ...ABC,
+        ...dedupedTwoCharsSafe,
+        ...dedupedTwoCharsUpperSafe,
+      ];
 
       return comboChars;
     })()};
